@@ -1,5 +1,5 @@
 # unicorn for Pepares
-worker_process 2
+worker_processes 2
 working_directory "/var/www/pepares/"
 listen "/run/pepares.sock"
 timeout 30
