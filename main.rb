@@ -4,8 +4,7 @@ require "slim"
 require "coffee-script"
 require "sass"
 
-p ENV['RACK_ENV']
-require "sinatra/reloader"
+require "sinatra/reloader" if ENV['RACK_ENV'] == "development"
 
 class MainApp < Sinatra::Base
   get "/" do
