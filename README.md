@@ -2,8 +2,6 @@
 rake
 bundler
 
-
-
 ruby-sinatra
 ruby-sinatra-contrib
 ruby-slim
@@ -36,7 +34,11 @@ ruby-rack \
 ruby-nokogiri
 
 /etc/default/unicorn
+```
+CONFIGURED=yes
 APP_ROOT=/var/www/pepares
+```
+
 bundle exec unicorn -c unicorn.rb -E production -D
 
 nginx
@@ -49,7 +51,7 @@ upstream unicorn {
 server {
         root /var/www/pepares/public;
         location / {
-                try_files $uri $uri/ @unicorn;
+                try_files $uri @unicorn;
         }
 
         location @unicorn {

@@ -1,0 +1,16 @@
+h1
+  | ぺぱれす 
+  small< Pepares
+h3 環境
+table.u-full-width
+  thead
+    tr
+      th 名前
+      th 値
+  tbody
+    - @envs.each do |k, v|
+      tr
+        td
+          = k
+        td
+          = v
