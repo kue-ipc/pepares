@@ -13,7 +13,7 @@ class MainApp < Sinatra::Base
   end
 
   post "/shutdown" do
-    @wait_secs = 10
+    @wait_secs = 3
     Thread.new do
       Thread.pass
       sleep @wait_secs
@@ -23,13 +23,13 @@ class MainApp < Sinatra::Base
   end
 
   post "/reboot" do
-    @wait_secs = 10
+    @wait_secs = 3
     Thread.new do
       Thread.pass
       sleep @wait_secs
       system("/sbin/shutdown -r now")
     end
-    slim :shutdown
+    slim :reboot
   end
 
   post "/eject" do
