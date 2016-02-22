@@ -37,6 +37,7 @@ ruby-nokogiri
 ```
 CONFIGURED=yes
 APP_ROOT=/var/www/pepares
+UNICORN_OPTS="-D -c $CONFIG_RB -E production"
 ```
 
 bundle exec unicorn -c unicorn.rb -E production -D
@@ -59,3 +60,5 @@ server {
         }    root /var/www/pepares/public
 }
 ```
+
+gem install -i vendor -N --ignore-dependencies
