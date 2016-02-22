@@ -1,3 +1,3 @@
-Gem.path << ".vendor/gems"
+Gem.path << "./vendor/gems"
 require './main.rb'
 run MainApp
