@@ -1,0 +1,40 @@
+h1
+  | ぺぱれす 
+  small< Pepares
+.row
+  .nine.columns
+    h3 USB接続状態
+    form method="post" action="/eject"
+    table.u-full-width
+      thead
+        tr
+          th 名前
+          th タイプ
+          th 容量
+          th フォーマット
+          th 操作
+      tbody
+        tr#usb-1-info
+          td#usb-1-name USBほげほげ
+          td#usb-1-type ほげほげ
+          td#usb-1-size 2GB / 10GB
+          td#usb-1-format FAT32
+          td#usb-1-operator
+            button name="id" value="1" type="submit" onclick="return confirm_eject(1);" 取り出し
+  .three.columns
+    h3 操作
+    form method="post" action="/reboot"
+      button.u-full-width type="submit" onclick="return confirm_reboot();" 再起動
+    form method="post" action="/shutdown"
+      button.u-full-width type="submit" onclick="return confirm_shutdown();" シャットダウン
+p ぺぱれす (Pepares) は簡易ペーパーレス会議システムです。
+p USBメモリを抜く前に、「取り出し」または「シャットダウン」をしてください。安全に取り出すことができます。
+
+coffee:
+  @confirm_reboot = ->
+    confirm "再起動してもよろしいですか？"
+  @confirm_shutdown = ->
+    confirm "シャットダウンしてもよろしいですか？"
+  @confirm_eject = (id) ->
+    usbNameElement = document.getElementById("usb-#{id}-name")
+    confirm "#{usbNameElement.innerHTML} を取り出します。よろしいですか？"
