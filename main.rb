@@ -1,9 +1,11 @@
 
 require "sinatra/base"
-require "sinatra/reloader"
 require "slim"
 require "coffee-script"
 require "sass"
+
+p ENV['RACK_ENV']
+require "sinatra/reloader"
 
 class MainApp < Sinatra::Base
   get "/" do

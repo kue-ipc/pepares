@@ -34,6 +34,10 @@ namespace :css do
   end
 end
 
+task :develop do
+  sh "rackup"
+end
+
 task :server do
-  sh "unicorn -c unicorn.rb -E development -D"
+  sh "bundle exec unicorn -c unicorn.rb -E production -D"
 end

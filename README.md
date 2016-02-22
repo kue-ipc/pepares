@@ -1,4 +1,5 @@
 
+bundler
 
 ruby-sinatra
 ruby-sinatra-contrib
@@ -18,3 +19,6 @@ bower install
 ruby css_build
 use framework
 * [Skeleton](http://getskeleton.com/) 2.0.4
+
+
+bundle install --path=vendor/bundle --without=development
