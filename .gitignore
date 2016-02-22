@@ -2,3 +2,4 @@ bower_components/*
 .sass-cache/*
 vendor/*
 .bundle/*
+Gemfile.lock
