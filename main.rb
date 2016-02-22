@@ -13,12 +13,22 @@ class MainApp < Sinatra::Base
   end
 
   post "/shutdown" do
-    # system("/sbin/shutdown -h now")
+    @wait_secs = 10
+    Thread.new do
+      Thread.pass
+      sleep @wait_secs
+      system("/sbin/shutdown -h now")
+    end
     slim :shutdown
   end
 
   post "/reboot" do
-    # system("/sbin/shutdown -h now")
+    @wait_secs = 10
+    Thread.new do
+      Thread.pass
+      sleep @wait_secs
+      system("/sbin/shutdown -r now")
+    end
     slim :shutdown
   end
 
