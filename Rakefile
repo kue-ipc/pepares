@@ -35,7 +35,7 @@ namespace :css do
   end
 end
 
-desc "簡易サーバ実行(テスト用)"
+desc "簡易サーバ実行"
 task :server do
   sh "rackup"
 end
