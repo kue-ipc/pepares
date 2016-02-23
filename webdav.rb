@@ -14,6 +14,9 @@ class WebDAVFilter
 
   def call(env)
     if env["PATH_INFO"].start_with?(@path)
+      if forwarded_hosts = env["HTTP_X_FORWARDED_HOST"]
+        env["HTTP_HOST"] = forwarded_hosts.split(/,\s?/).last
+      end
       return @dav.call(env)
     else
       return @app.call(env)
