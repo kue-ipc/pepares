@@ -14,15 +14,16 @@ class WebDAVFilter
 
   def call(env)
     if env["PATH_INFO"].start_with?(@path)
-      if env["REQUEST_METHOD"] == "PROPPATCH"
-        body = "Forbidden\n"
-        return [403, {
-          "Content-Type" => "text/plain",
-          "Content-Length" => body.size.to_s,
-        }, [body]]
-      else
-        return @dav.call(env)
-      end
+      return @dav.call(env)
+      # if env["REQUEST_METHOD"] == "PROPPATCH"
+      #   body = "Forbidden\n"
+      #   return [403, {
+      #     "Content-Type" => "text/plain",
+      #     "Content-Length" => body.size.to_s,
+      #   }, [body]]
+      # else
+      #   return @dav.call(env)
+      # end
     else
       return @app.call(env)
     end
