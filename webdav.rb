@@ -14,6 +14,7 @@ class WebDAVFilter
 
   def call(env)
     if env["PATH_INFO"].start_with?(@path)
+      p env
       return @dav.call(env)
     else
       return @app.call(env)
