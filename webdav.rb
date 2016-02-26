@@ -31,7 +31,7 @@ end
 class USBResource < RackDAV::FileResource
   def property_names
     if stat.directory?
-      super - %(getcontenttype)
+      super - %w(getcontenttype)
     else
       super
     end
