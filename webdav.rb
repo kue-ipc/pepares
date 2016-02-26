@@ -9,7 +9,8 @@ class WebDAVFilter
       path: "/",
     }.merge(options)
     @path = @options[:path].dup.freeze
-    @dav = RackDAV::Handler.new(:root => @options[:root])
+    @dav = RackDAV::Handler.new(:root => @options[:root],
+        resource_class: USBResource)
   end
 
   def call(env)
@@ -17,9 +18,23 @@ class WebDAVFilter
       if (forwarded_hosts = env["HTTP_X_FORWARDED_HOST"])
         env["HTTP_HOST"] = forwarded_hosts.split(/,\s?/).last
       end
-      return @dav.call(env)
+      @dav.call(env)
     else
-      return @app.call(env)
+      @app.call(env)
+    end
+  end
+end
+
+# USBResource
+# ignore lock
+# ignore patch
+class USBResource < RackDAV::FileResource
+  # Return the mime type of this resource.
+  def content_type
+    if stat.directory?
+      "httpd/unix-directory"
+    else
+      super
     end
   end
 end
