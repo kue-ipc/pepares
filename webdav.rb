@@ -29,10 +29,9 @@ end
 # ignore lock
 # ignore patch
 class USBResource < RackDAV::FileResource
-  # Return the mime type of this resource.
-  def content_type
+  def property_names
     if stat.directory?
-      "httpd/unix-directory"
+      super - %(getcontenttype)
     else
       super
     end
