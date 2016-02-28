@@ -62,3 +62,5 @@ server {
 ```
 
 gem install -i vendor -N --ignore-dependencies
+
+sudo mkdir /var/log/unicorn
