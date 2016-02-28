@@ -18,7 +18,10 @@ class WebDAVFilter
       if (forwarded_hosts = env["HTTP_X_FORWARDED_HOST"])
         env["HTTP_HOST"] = forwarded_hosts.split(/,\s?/).last
       end
-      @dav.call(env)
+      result = @dav.call(env)
+      p env
+      p result
+      return result
     else
       @app.call(env)
     end
@@ -29,11 +32,11 @@ end
 # ignore lock
 # ignore patch
 class USBResource < RackDAV::FileResource
-  def property_names
-    if stat.directory?
-      super - %w(getcontenttype)
-    else
-      super
-    end
-  end
+  # def property_names
+  #   if stat.directory?
+  #     super - %w(getcontenttype)
+  #   else
+  #     super
+  #   end
+  # end
 end
