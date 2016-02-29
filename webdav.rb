@@ -19,12 +19,12 @@ class WebDAVFilter
         env["HTTP_HOST"] = forwarded_hosts.split(/,\s?/).last
       end
       res = @dav.call(env)
-      puts "---request body---"
-      puts env["rack.input"].gets
-      puts "---response body---"
-      res[2].each do |body|
-        puts body
-      end
+      # puts "---request body---"
+      # puts env["rack.input"].gets
+      # puts "---response body---"
+      # res[2].each do |body|
+      #   puts body
+      # end
       return res
     else
       @app.call(env)
