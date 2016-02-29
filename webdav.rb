@@ -72,8 +72,9 @@ class WebDAVFilter
 end
 
 # USBResource
+# collections have no content
+# ignore custom property
 # ignore lock
-# ignore patch
 class USBResource < RackDAV::FileResource
   def get_property(name)
     if collection?
@@ -85,5 +86,16 @@ class USBResource < RackDAV::FileResource
     else
       super
     end
+  end
+
+  def set_custom_property(name, value)
+  end
+
+  def get_custom_property(name)
+    nil
+  end
+
+  def list_custom_properties
+    []
   end
 end
