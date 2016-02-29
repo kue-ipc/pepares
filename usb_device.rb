@@ -8,9 +8,8 @@ class USBDevice
     @fstype = fsm.fstype
     stat = FileSystem.stat(fsm.mount)
     @size = {
-      total: stat.blocks,
-      free: stat.blocks_free,
-      avail: stat.blocks_avail
+      total: stat.blok_size * stat.blocks,
+      free: stat.blok_size * stat.blocks_free,
     }.freeze
     @name = File.basename(@mount)
   end

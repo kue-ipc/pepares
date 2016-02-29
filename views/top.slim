@@ -20,9 +20,10 @@ h1
             td id="usb-#{index}-type"
               = device.fstype
             td id="usb-#{index}-size"
-              => device.size[:free]
-              | /
-              =< device.size[:total]
+              => device.size[:free] / (1024 ** 3).to_f
+              | GB /
+              =<> device.size[:total]  / (1024 ** 3).to_f
+              | GB
             td id="usb-#{index}-operator"
               button name="device" value="#{device.device}" type="submit" onclick="return confirm_eject(#{index});"
                | 取り出し
