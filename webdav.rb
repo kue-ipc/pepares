@@ -29,7 +29,19 @@ end
 # ignore lock
 # ignore patch
 class USBResource < RackDAV::FileResource
-  # def property_names
+  def get_property(name)
+    if collection?
+      case name
+      when 'getcontentlength' then "0"
+      when 'getcontenttype'   then nil
+      else super
+      end
+    else
+      super
+    end
+  end
+
+    # def property_names
   #   if stat.directory?
   #     super - %w(getcontenttype)
   #   else
