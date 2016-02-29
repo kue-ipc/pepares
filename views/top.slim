@@ -24,7 +24,8 @@ h1
               | /
               =< device.size[:total]
             td id="usb-#{index}-operator"
-              button name="device" value="#{device.device}" type="submit" onclick="return confirm_eject(1);" 取り出し
+              button name="device" value="#{device.device}" type="submit" onclick="return confirm_eject(#{index});"
+               | 取り出し
   .three.columns
     h3 操作
     form method="post" action="/reboot"
