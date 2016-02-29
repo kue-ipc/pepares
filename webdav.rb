@@ -89,9 +89,11 @@ class USBResource < RackDAV::FileResource
   end
 
   def set_custom_property(name, value)
+    puts "#{name} = #{value}"
   end
 
   def get_custom_property(name)
+    puts "#{name}"
     nil
   end
 
