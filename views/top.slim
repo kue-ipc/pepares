@@ -11,16 +11,20 @@ h1
           th 名前
           th タイプ
           th 容量
-          th フォーマット
           th 操作
       tbody
-        tr#usb-1-info
-          td#usb-1-name USBほげほげ
-          td#usb-1-type ほげほげ
-          td#usb-1-size 2GB / 10GB
-          td#usb-1-format FAT32
-          td#usb-1-operator
-            button name="id" value="1" type="submit" onclick="return confirm_eject(1);" 取り出し
+        - @devices.each_with_index do |device, index|
+          tr id="usb-#{index}-info"
+            td id="usb-#{index}-name"
+              = device.name
+            td id="usb-#{index}-type"
+              = device.fstype
+            td id="usb-#{index}-size" 2GB / 10GB
+              => device.size[:free]
+              | /
+              =< device.size[:total]
+            td id="usb-#{index}-operator"
+              button name="device" value="#{device.device}" type="submit" onclick="return confirm_eject(1);" 取り出し
   .three.columns
     h3 操作
     form method="post" action="/reboot"

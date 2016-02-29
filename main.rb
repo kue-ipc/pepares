@@ -4,11 +4,13 @@ require "slim"
 require "coffee-script"
 require "sass"
 require "rack_dav"
-
 require "sinatra/reloader" if ENV['RACK_ENV'] == "development"
+
+require_relative 'usb_device'
 
 class MainApp < Sinatra::Base
   get "/" do
+    @devices = USBDevice.list
     slim :top
   end
 

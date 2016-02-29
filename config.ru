@@ -1,7 +1,6 @@
 Gem.path << "./vendor/gems"
-require './main.rb'
-require './webdav.rb'
-
+require_relative 'main'
+require_relative 'webdav'
 use Rack::Auth::Basic do |username, password|
   username == "pepares" && password == "pepares"
 end

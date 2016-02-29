@@ -32,6 +32,7 @@ ruby-sass \
 ruby-coffee-script \
 ruby-rack \
 ruby-nokogiri
+ruby-filesystem
 
 /etc/default/unicorn
 ```
