@@ -19,8 +19,10 @@ class WebDAVFilter
         env["HTTP_HOST"] = forwarded_hosts.split(/,\s?/).last
       end
       result = @dav.call(env)
-      p env
-      p result
+      puts "---env---"
+      puts env
+      puts "---result---"
+      puts result
       return result
     else
       @app.call(env)
