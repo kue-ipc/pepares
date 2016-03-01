@@ -37,8 +37,7 @@ class MainApp < Sinatra::Base
   post "/eject" do
     system('/bin/sync')
     usb = USBDevice.find_by_device(@params[:eject])
-    p usb
-    # system("/usr/bin/udevil unmount /dev/sda1")
+    system("/usr/bin/devmon", "--eject", usb.device)
     redirect back
   end
 
