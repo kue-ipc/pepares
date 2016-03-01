@@ -13,19 +13,21 @@ h1
           th 容量
           th 操作
       tbody
-        - @devices.each_with_index do |device, index|
-          tr id="usb-#{index}-info"
-            td id="usb-#{index}-name"
-              = device.name
-            td id="usb-#{index}-type"
-              = device.fstype
-            td id="usb-#{index}-size"
-              => device.size[:free] / (1024 ** 3).to_f
+        - @usbs.each_with_index do |usb, index|
+          tr
+            td
+              a href="/usb/#{usb.name}/"
+                span id="usb-#{index}-name"
+                  = usb.name
+            td
+              = usb.fstype
+            td
+              => "%.1f" % (usb.size[:available] / (1024 ** 3).to_f)
               | GB /
-              =<> device.size[:total]  / (1024 ** 3).to_f
+              =<> "%.1f" % (usb.size[:total]  / (1024 ** 3).to_f)
               | GB
-            td id="usb-#{index}-operator"
-              button name="device" value="#{device.device}" type="submit" onclick="return confirm_eject(#{index});"
+            td
+              button type="submit" name="eject" value="#{usb.device}" onclick="return confirm_eject(#{index});"
                | 取り出し
   .three.columns
     h3 操作

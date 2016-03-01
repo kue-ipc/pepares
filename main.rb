@@ -10,7 +10,7 @@ require_relative 'usb_device'
 
 class MainApp < Sinatra::Base
   get "/" do
-    @devices = USBDevice.list
+    @usbs = USBDevice.all
     slim :top
   end
 
@@ -35,8 +35,11 @@ class MainApp < Sinatra::Base
   end
 
   post "/eject" do
+    system('/bin/sync')
+    usb = USBDevice.find_by_device(@params[:])
+    p usb
     # system("/usr/bin/udevil unmount /dev/sda1")
-    slim :eject
+    redirect back
   end
 
   get "/about" do
