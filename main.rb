@@ -44,8 +44,9 @@ class MainApp < Sinatra::Base
   get "/about" do
     @envs = {}
     @envs["RUBY_VERSION"] = RUBY_VERSION
-    @settings = settings
-    p @settings
+    p settings.root
+
+    p @settings.root
     @license_text = "dummy"
     slim :about
   end
