@@ -8,19 +8,26 @@ html lang="ja"
       | Pepares
     link rel="stylesheet" href="css/skeleton.min.css"
     sass:
+      header:
+        h1
+          font-size: 3rem
+          small
+            font-size: 1rem
       footer
-        border-top: 1px solid gray
+        border-top: 1px solid grey
         text-align: center
+        font-size: 80%
   body
     header
       .container
         h1
-          small 簡易ペーパーレス会議システム
           | Pepares
+          small< 簡易ペーパーレス会議システム
     main
       .container
         == yield
     footer
-      | Powered by 
-      a<> href="/about" Pepares
-      | © 2016 京都教育大学
+      p
+        | Powered by 
+        a<> href="/about" Pepares
+        | © 2016 京都教育大学

@@ -5,21 +5,7 @@ section
       Pepares (ペパレス) は簡易ペーパーレス会議システムのために開発されたシステムです。
       Raspberry Pi とオープンソース技術の組み合わせで低価格を実現しました。
 section
-  h3 環境
-  table.u-full-width
-    thead
-      tr
-        th 名前
-        th 値
-    tbody
-      - @envs.each do |k, v|
-        tr
-          td
-            = k
-          td
-            = v
-
-section
- h3 ライセンス
- pre
-  = @license_text
+  h3 ライセンス
+  pre
+    code
+      = @license_text

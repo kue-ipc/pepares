@@ -42,8 +42,6 @@ class MainApp < Sinatra::Base
   end
 
   get "/about" do
-    @envs = {}
-    @envs["RUBY_VERSION"] = RUBY_VERSION
     @license_text = IO.read(File.join(settings.root, "LICENSE"))
     slim :about
   end
