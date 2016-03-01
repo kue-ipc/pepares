@@ -7,6 +7,20 @@ html lang="ja"
     title
       | Pepares
     link rel="stylesheet" href="css/skeleton.min.css"
+    sass:
+      footer
+        border-top: 1px solid gray
+        text-align: center
   body
-    .container
-      == yield
+    header
+      .container
+      h1
+        small 簡易ペーパーレス会議システム
+        | Pepares
+    main
+      .container
+        == yield
+    footer
+      | Powered by 
+      a href="/about" Pepares
+      | © 2016 京都教育大学

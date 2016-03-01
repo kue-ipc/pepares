@@ -43,10 +43,9 @@ class MainApp < Sinatra::Base
 
   get "/about" do
     @envs = {}
-    @envs["Rubyバージョン"] = RUBY_VERSION
-    @envs["Gemの検索パス"] = Gem.path
-    @envs["RACK_ENV"] = ENV['RACK_ENV']
-    @envs["$:"] = $:
+    @envs["RUBY_VERSION"] = RUBY_VERSION
+    @settings = settings
+    @license_text = "dummy"
     slim :about
   end
 end
