@@ -5,30 +5,30 @@ h1
   .nine.columns
     h3 USB接続状態
     form method="post" action="/eject"
-    table.u-full-width
-      thead
-        tr
-          th 名前
-          th タイプ
-          th 容量
-          th 操作
-      tbody
-        - @usbs.each_with_index do |usb, index|
+      table.u-full-width
+        thead
           tr
-            td
-              a href="/usb/#{usb.name}/"
-                span id="usb-#{index}-name"
-                  = usb.name
-            td
-              = usb.fstype
-            td
-              => "%.1f" % (usb.size[:available] / (1024 ** 3).to_f)
-              | GB /
-              =<> "%.1f" % (usb.size[:total]  / (1024 ** 3).to_f)
-              | GB
-            td
-              button type="submit" name="eject" value="#{usb.device}" onclick="return confirm_eject(#{index});"
-               | 取り出し
+            th 名前
+            th タイプ
+            th 容量
+            th 操作
+        tbody
+          - @usbs.each_with_index do |usb, index|
+            tr
+              td
+                a href="/usb/#{usb.name}/"
+                  span id="usb-#{index}-name"
+                    = usb.name
+              td
+                = usb.fstype
+              td
+                => "%.1f" % (usb.size[:available] / (1024 ** 3).to_f)
+                | GB /
+                =<> "%.1f" % (usb.size[:total]  / (1024 ** 3).to_f)
+                | GB
+              td
+                button type="submit" name="eject" value="#{usb.device}" onclick="return confirm_eject(#{index});"
+                 | 取り出し
   .three.columns
     h3 操作
     form method="post" action="/reboot"
