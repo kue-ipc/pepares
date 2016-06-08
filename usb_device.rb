@@ -1,23 +1,25 @@
-require 'filesystem'
+require 'sys-filesystem'
 
+# USB Device Model Class
 class USBDevice
   attr_reader :device, :mount, :fstype, :size, :name
   def initialize(fsm)
-    @device = fsm.device
-    @mount = fsm.mount
-    @fstype = fsm.fstype
-    stat = FileSystem.stat(fsm.mount)
+    @device = fsm.name
+    @mount = fsm.mount_point
+    @fstype = fsm.mount_type
+    stat = Sys::FileSystem.stat(@mount)
     @size = {
       total: stat.block_size * stat.blocks,
-      available: stat.block_size * stat.blocks_avail
+      available: stat.block_size * stat.blocks_avail,
+      free: stat.block_size * stat.blocks_free,
     }.freeze
     @name = File.basename(@mount)
   end
 
   class << self
     def all
-      FileSystem.mounts
-                .select { |m| m.mount.start_with?('/var/www/dav/usb/') }
+      Sys::Filesystem.mounts
+                .select { |m| m.mount_point.start_with?('/var/www/dav/usb/') }
                 .map { |m| USBDevice.new(m) }
     end
 

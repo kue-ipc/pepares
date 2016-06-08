@@ -1,3 +1,23 @@
+# Pepares 簡易ペーパーレス会議システム
+
+## システム要件
+* サポートするハードウェアとOS
+    * Paspberry Pi 2 B または Paspberry Pi 3 B
+    * Raspbien Jessie
+* 動作するであろうと環境
+    * UNIX/Linux 環境
+    * Ruby 2.1 以上
+* CSSを更新する場合
+    * Node.js + npm + Bower
+
+## Raspberry Pi の設定
+
+### 必要なパッケージのインストール
+
+```
+sudo apt-get install ruby bundler nodejs zlib1g-dev
+bundle install --path vendor/bundle
+```
 
 rake
 bundler

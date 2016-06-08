@@ -1,0 +1,4 @@
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'

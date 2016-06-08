@@ -37,7 +37,7 @@ end
 
 desc "簡易サーバ実行"
 task :server do
-  sh "rackup"
+  sh "rackup -o 0.0.0.0"
 end
 
 namespace :pi do
