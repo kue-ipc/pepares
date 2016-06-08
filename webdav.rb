@@ -1,17 +1,17 @@
 # WebDAV Filter
-require "rack_dav"
+require 'rack_dav'
 
-# hack rack_dav
+# HACK: rack_dav
 # RackDAV::Controller#propfind
 module RackDAV
   class Controller
     def propfind
-      raise NotFound if not resource.exist?
+      raise NotFound unless resource.exist?
 
-      if not request_match("/d:propfind/d:allprop").empty?
+      if !request_match('/d:propfind/d:allprop').empty?
         nodes = all_prop_nodes
       else
-        nodes = request_match("/d:propfind/d:prop/*")
+        nodes = request_match('/d:propfind/d:prop/*')
         nodes = all_prop_nodes if nodes.empty?
       end
 
@@ -25,9 +25,7 @@ module RackDAV
         # <propfind xmlns="DAV:"><prop><nonamespace xmlns=""/></prop></propfind>
         if n.namespace.nil?
           nd = n.namespace_definitions.first
-          if nd.prefix.nil? && nd.href.empty?
-            n.add_namespace(nil, '')
-          end
+          n.add_namespace(nil, '') if nd.prefix.nil? && nd.href.empty?
         end
       end
 
@@ -37,7 +35,7 @@ module RackDAV
           xml.response do
             # The path must be finished with  "/" if resource is a collection
             url = "http://#{host}#{url_escape resource.path}"
-            url += '/' if resource.collection? && ! url.end_with?('/')
+            url += '/' if resource.collection? && !url.end_with?('/')
             xml.href url
             propstats xml, get_properties(resource, nodes)
           end
@@ -52,17 +50,17 @@ class WebDAVFilter
     @app = app
     @options = {
       root: Dir.pwd,
-      path: "/",
+      path: '/'
     }.merge(options)
     @path = @options[:path].dup.freeze
-    @dav = RackDAV::Handler.new(:root => @options[:root],
-        resource_class: USBResource)
+    @dav = RackDAV::Handler.new(root: @options[:root],
+                                resource_class: USBResource)
   end
 
   def call(env)
-    if env["PATH_INFO"].start_with?(@path)
-      if (forwarded_hosts = env["HTTP_X_FORWARDED_HOST"])
-        env["HTTP_HOST"] = forwarded_hosts.split(/,\s?/).last
+    if env['PATH_INFO'].start_with?(@path)
+      if (forwarded_hosts = env['HTTP_X_FORWARDED_HOST'])
+        env['HTTP_HOST'] = forwarded_hosts.split(/,\s?/).last
       end
       @dav.call(env)
     else
@@ -79,7 +77,7 @@ class USBResource < RackDAV::FileResource
   def get_property(name)
     if collection?
       case name
-      when 'getcontentlength' then "0"
+      when 'getcontentlength' then '0'
       when 'getcontenttype'   then nil
       else super
       end
@@ -93,7 +91,7 @@ class USBResource < RackDAV::FileResource
   end
 
   def get_custom_property(name)
-    puts "#{name}"
+    puts name.to_s
     nil
   end
 

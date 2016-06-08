@@ -11,7 +11,7 @@ class USBDevice
     @size = {
       total: stat.block_size * stat.blocks,
       available: stat.block_size * stat.blocks_avail,
-      free: stat.block_size * stat.blocks_free,
+      free: stat.block_size * stat.blocks_free
     }.freeze
     @name = File.basename(@mount)
   end
@@ -19,8 +19,8 @@ class USBDevice
   class << self
     def all
       Sys::Filesystem.mounts
-                .select { |m| m.mount_point.start_with?('/var/www/dav/usb/') }
-                .map { |m| USBDevice.new(m) }
+                     .select { |m| m.mount_point.start_with?('/var/www/dav/usb/') }
+                     .map { |m| USBDevice.new(m) }
     end
 
     def find_by_device(device)
