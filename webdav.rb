@@ -5,6 +5,9 @@ require 'rack_dav'
 # RackDAV::Controller#propfind
 module RackDAV
   class Controller
+    # Original code is RackDAV https://github.com/georgi/rack_dav
+    # Copyright (c) 2009 Matthias Georgi <http://www.matthias-georgi.de>
+    # see license: https://github.com/georgi/rack_dav/blob/master/LICENSE
     def propfind
       raise NotFound unless resource.exist?
 

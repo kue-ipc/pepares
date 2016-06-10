@@ -6,34 +6,21 @@ html lang="ja"
     meta name="viewport" content="initial-scale=1"
     title
       | Pepares
-    link rel="stylesheet" href="css/skeleton.min.css"
-    sass:
-      header
-        h1
-          font-size: 4rem
-          small
-            font-size: 2rem
-      footer
-        border-top: 1px solid lightgrey
-        padding-top: 1rem
-        text-align: center
-        font-size: 80%
-      h3
-        font-size: 3rem
-      pre
-        code
-          white-space: pre-wrap
+    link rel="stylesheet" href="css/skyblue.min.css"
   body
     header
       .container
         h1
           | Pepares
           small< 簡易ペーパーレス会議システム
+        a.btn.btn-sm.btn-empty href="/" トップ
     main
       .container
         == yield
     footer
-      p
-        | Powered by 
-        a<> href="/about" Pepares
-        | © 2016 京都教育大学
+      .container
+        hr
+        p.text-center
+          | Powered by 
+          a<> href="/about" Pepares
+          | © 2016 京都教育大学

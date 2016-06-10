@@ -2,10 +2,29 @@ section
   h3 Pepares とは
   p
     |
-      Pepares (ペパレス) は簡易ペーパーレス会議システムのために開発されたシステムです。
+      Pepares (ペパレス) は簡易ペーパーレス会議システムです。
       Raspberry Pi とオープンソース技術の組み合わせで低価格を実現しました。
+      WebDAV を採用することで、あらゆる機器へのドキュメント配布が可能です。
 section
   h3 ライセンス
   pre
-    code
-      = @license_text
+    = @license_text
+  h3 使用ライブラリ
+  p
+    |
+      次のライブラリが含まれます。
+      各ライブラリの著作権および使用ライセンスは各ライブラリが定めるものに準じます。
+  ul
+    li 
+      a> href="https://stanko.github.io/skyblue/"
+        | SkyBlue CSS Framework
+    li
+      a> href="https://github.com/georgi/rack_dav"
+        | RackDAV
+      | ※ 一部のコードのみ
+  p
+    | 動作には
+    a<> href="https://www.ruby-lang.org/" Ruby
+    | および 
+    a<> href="https://rubygems.org/" RubyGems
+    | で公開された各ライブラリを使用しています。

@@ -19,6 +19,13 @@ sudo apt-get install ruby bundler nodejs zlib1g-dev
 bundle install --path vendor/bundle
 ```
 
+### Rasbieanの設定
+
+
+
+
+
+
 rake
 bundler
 

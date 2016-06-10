@@ -1,6 +1,9 @@
+# frozen_string_literal: true
 require 'rake'
 require 'rake/clean'
 require 'sass'
+
+Encoding.default_external = 'UTF-8'
 
 def scss_compile(scss, css)
   open(css, 'wb') do |io|
@@ -13,9 +16,12 @@ def scss_compile(scss, css)
   end
 end
 
-Encoding.default_external = 'UTF-8'
 namespace :css do
-  CSSS = FileList['public/css/skeleton.min.css']
+  CSSS = FileList[
+    'public/css/skeleton.min.css',
+    'public/css/pure-min.css',
+    'public/css/skyblue.min.css',
+  ]
   CLEAN << FileList['bower_components/*', '.sass-cache/*']
   CLOBBER << CSSS
 
@@ -24,13 +30,32 @@ namespace :css do
 
   task css_build: CSSS
 
-  task :bower_install do
+  task :bower_install_all do
+    sh 'bower install skeleton-sass'
+    sh 'bower install pure'
+    sh 'bower install skyblue'
+  end
+
+  file 'bower_components/skeleton-sass/skeleton_template.scss' do
     sh 'bower install skeleton-sass'
   end
 
-  file 'bower_components/skeleton-sass/skeleton_template.scss' => :bower_install
+  file 'bower_components/pure/pure-min.css' do
+    sh 'bower install pure'
+  end
+
+  file 'bower_components/skyblue/sass/skyblue.scss' do
+    sh 'bower install skyblue'
+  end
+
 
   file 'public/css/skeleton.min.css' => 'bower_components/skeleton-sass/skeleton_template.scss' do |t|
+    scss_compile(t.source, t.name)
+  end
+  file 'public/css/pure-min.css' => 'bower_components/pure/pure-min.css' do |t|
+    cp t.source, t.name
+  end
+  file 'public/css/skyblue.min.css' => 'bower_components/skyblue/sass/skyblue.scss' do |t|
     scss_compile(t.source, t.name)
   end
 end

@@ -1,4 +1,25 @@
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/MethodLength:
+  Max: 20
+
 Style/Documentation:
   Exclude:
     - 'spec/**/*'
     - 'test/**/*'
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/SpecialGlobalVars:
+  EnforcedStyle: use_perl_names
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/RedundantReturn:
+  Enabled: false

@@ -2,5 +2,6 @@ bower_components/*
 .sass-cache/*
 vendor/*
 .bundle/*
-node_modules/*
+log/*
+tmp/*
 Gemfile.lock

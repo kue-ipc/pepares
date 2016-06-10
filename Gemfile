@@ -9,6 +9,7 @@ gem 'rack_dav'
 gem 'puma'
 gem 'unicorn'
 gem 'sys-filesystem'
+gem 'redcarpet'
 
 group :development do
   gem 'sinatra-contrib'

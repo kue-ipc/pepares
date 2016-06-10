@@ -1,8 +1,8 @@
 .row
-  .nine.columns
+  .col.md-9
     h3 USB接続状態
     form method="post" action="/eject"
-      table.u-full-width
+      table.table.table-striped.table-hover
         thead
           tr
             th 名前
@@ -15,7 +15,7 @@
               td
                 a href="/usb/#{usb.name}/"
                   span id="usb-#{index}-name"
-                    = usb.name
+                    = usb.label || usb.name
               td
                 = usb.fstype
               td
@@ -24,15 +24,22 @@
                 =<> "%.1f" % (usb.size[:total]  / (1024 ** 3).to_f)
                 | GB
               td
-                button type="submit" name="eject" value="#{usb.device}" onclick="return confirm_eject(#{index});"
+                button.btn.btn-empty type="submit" name="eject" value="#{usb.device}" onclick="return confirm_eject(#{index});"
                  | 取り出し
-  .three.columns
+  .col.md-3
     h3 操作
     form method="post" action="/shutdown"
-      button.u-full-width type="submit" onclick="return confirm_shutdown();" シャットダウン
+      button.btn.btn-error type="submit" onclick="return confirm_shutdown();"
+        span.icon-power>
+        | シャットダウン
     form method="post" action="/reboot"
-      button.u-full-width type="submit" onclick="return confirm_reboot();" 再起動
-p 「取り出し」または「シャットダウン」することで、USBメモリを安全に取り出すことができます。
+      button.btn.btn-warning type="submit" onclick="return confirm_reboot();"
+        span.icon-refresh>
+        | 再起動
+p 
+  strong
+    span.icon-power
+  |「取り出し」または「シャットダウン」することで、USBメモリを安全に取り出すことができます。
 
 coffee:
   @confirm_shutdown = ->

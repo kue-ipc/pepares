@@ -11,6 +11,7 @@ require_relative 'usb_device'
 class MainApp < Sinatra::Base
   get '/' do
     @usbs = USBDevice.all
+    p @usbs
     slim :top
   end
 
@@ -19,7 +20,7 @@ class MainApp < Sinatra::Base
     Thread.new do
       Thread.pass
       sleep @wait_secs
-      system('/sbin/shutdown -h now')
+      system('/usr/bin/sudo /sbin/shutdown -h now')
     end
     slim :shutdown
   end
@@ -29,7 +30,7 @@ class MainApp < Sinatra::Base
     Thread.new do
       Thread.pass
       sleep @wait_secs
-      system('/sbin/shutdown -r now')
+      system('/usr/bin/sudo /sbin/shutdown -r now')
     end
     slim :reboot
   end
@@ -42,7 +43,7 @@ class MainApp < Sinatra::Base
   end
 
   get '/about' do
-    @license_text = IO.read(File.join(settings.root, 'LICENSE'))
+    @license_text = IO.read(File.join(settings.root, 'LICENSE.md'))
     slim :about
   end
 end
