@@ -23,3 +23,6 @@ Style/AsciiComments:
 
 Style/RedundantReturn:
   Enabled: false
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: consistent_comma
