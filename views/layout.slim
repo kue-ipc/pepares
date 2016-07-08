@@ -6,21 +6,47 @@ html lang="ja"
     meta name="viewport" content="initial-scale=1"
     title
       | Pepares
-    link rel="stylesheet" href="css/skyblue.min.css"
+    link rel="stylesheet" href="css/bulma.min.css"
+    link rel="stylesheet" href="css/font-awesome.min.css"
   body
-    header
+    header.header
       .container
-        h1
-          | Pepares
-          small< 簡易ペーパーレス会議システム
-        a.btn.btn-sm.btn-empty href="/" トップ
-    main
+        nav.level
+          .level-left
+            .level-item
+              h1.title Pepares
+          .level-right
+            .level-item
+              a.button
+                span.icon
+                  i.fa.fa-retweet
+                span 再読み込み
+    main.section
       .container
+        - [:danger, :warning, :success, :info, :primary].each do |level|
+          - if flash[level]
+            .notification class="is-#{level}"
+              button.delete onclick="this.parentElement.style.display = 'none';;"
+              = flash[level]
         == yield
-    footer
+    footer.footer
       .container
         hr
         p.text-center
-          | Powered by 
+          | Powered by
           a<> href="/about" Pepares
           | © 2016 京都教育大学
+    .modal#confirm-modal
+      .modal-background
+      .modal-card
+        header.modal-card-head
+          p.modal-card-title 確認
+          button.delete.cmc-cancel
+        section.modal-card-body
+          p.cmc-message
+        footer.modal-card-foot
+          form.cmc-form name="confirm-modal-form" action="/" method="POST"
+            input type="hidden" name="_method" value="POST"
+            button.button.cmc-ok type="submit" はい
+            button.button.cmc-cancel type="reset" いいえ
+    script src="/app.js"

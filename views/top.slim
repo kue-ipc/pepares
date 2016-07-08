@@ -1,8 +1,15 @@
-.row
-  .col.md-9
-    h3 USB接続状態
-    form method="post" action="/eject"
-      table.table.table-striped.table-hover
+/ - if @usbs.count == 0
+/   article.message.is-info
+/     .message-header
+/       | USBメモリ を Raspberry Pi に挿入してください。
+/     .message-body
+/       | USBメモリ が 認識されていません。 Rasberry Pi を挿入し、ページの再読み込みを行ってください。
+
+.tile.is-ancestor
+  .tile.is-parent.is-8
+    article.tile.is-child
+      h3.title USB接続状態
+      table.table.is-striped
         thead
           tr
             th 名前
@@ -24,28 +31,29 @@
                 =<> "%.1f" % (usb.size[:total]  / (1024 ** 3).to_f)
                 | GB
               td
-                button.btn.btn-empty type="submit" name="eject" value="#{usb.device}" onclick="return confirm_eject(#{index});"
-                 | 取り出し
-  .col.md-3
-    h3 操作
-    form method="post" action="/shutdown"
-      button.btn.btn-error type="submit" onclick="return confirm_shutdown();"
-        span.icon-power>
-        | シャットダウン
-    form method="post" action="/reboot"
-      button.btn.btn-warning type="submit" onclick="return confirm_reboot();"
-        span.icon-refresh>
-        | 再起動
+                a.panel-block[href="#" onclick="return cmc.confirm(this);"
+                    data-message="シャットダウンしてもよろしいですか？"
+                    data-action="/shutdown" data-method="POST"]
+                / button.btn.btn-empty[type="submit" name="eject" value="#{usb.device}"
+                /     onclick="return confirm_eject(#{index});"]
+                /  | 取り出し
+  .tile.is-parent
+    article.tile.is-child
+      nav.panel
+        p.panel-heading 操作
+        a.panel-block[href="#" onclick="return cmc.confirm(this);"
+            data-message="シャットダウンしてもよろしいですか？"
+            data-action="/shutdown" data-method="POST"]
+          span.panel-icon
+            i.fa.fa-power-off
+          | シャットダウン
+        a.panel-block[href="#" onclick="cmc.confirm(this);"
+            data-message="再起動してもよろしいですか？"
+            data-action="/reboot" data-method="POST"]
+          span.panel-icon
+            i.fa.fa-refresh
+          | 再起動
 p 
   strong
     span.icon-power
   |「取り出し」または「シャットダウン」することで、USBメモリを安全に取り出すことができます。
-
-coffee:
-  @confirm_shutdown = ->
-    confirm "シャットダウンしてもよろしいですか？"
-  @confirm_reboot = ->
-    confirm "再起動してもよろしいですか？"
-  @confirm_eject = (id) ->
-    usbNameElement = document.getElementById("usb-#{id}-name")
-    confirm "#{usbNameElement.innerHTML} を取り出します。よろしいですか？"

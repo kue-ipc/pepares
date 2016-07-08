@@ -11,7 +11,7 @@ class USBDevice
     @size = {
       total: stat.block_size * stat.blocks,
       available: stat.block_size * stat.blocks_available,
-      free: stat.block_size * stat.blocks_free
+      free: stat.block_size * stat.blocks_free,
     }.freeze
     @name = File.basename(@mount)
     @label = USBDevice.labels[@device]
@@ -63,7 +63,7 @@ class USBDevice
 end
 
 if __FILE__ == $0
-  ll =  USBDevice.labels
+  ll = USBDevice.labels
   p ll
   puts ll['/dev/sdb1']
   puts "日本語"

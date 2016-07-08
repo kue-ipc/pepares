@@ -2,12 +2,14 @@ source 'https://rubygems.org'
 
 gem 'rake'
 gem 'sinatra'
+gem 'rack_dav'
+gem 'rack-flash3'
+
 gem 'slim'
 gem 'sass'
 gem 'coffee-script'
-gem 'rack_dav'
+
 gem 'puma'
-gem 'unicorn'
 gem 'sys-filesystem'
 gem 'redcarpet'
 

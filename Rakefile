@@ -16,11 +16,24 @@ def scss_compile(scss, css)
   end
 end
 
+def sass_compile(sass, css)
+  open(css, 'wb') do |io|
+    io.write(Sass::Engine.new(
+      IO.read(sass),
+      syntax: :sass,
+      load_paths: [File.dirname(sass)],
+      style: :compressed
+    ).render)
+  end
+end
+
 namespace :css do
   CSSS = FileList[
     'public/css/skeleton.min.css',
     'public/css/pure-min.css',
     'public/css/skyblue.min.css',
+    'public/css/bulma.min.css',
+    'public/css/font-awesome.min.css',
   ]
   CLEAN << FileList['bower_components/*', '.sass-cache/*']
   CLOBBER << CSSS
@@ -34,6 +47,8 @@ namespace :css do
     sh 'bower install skeleton-sass'
     sh 'bower install pure'
     sh 'bower install skyblue'
+    sh 'bower install bulma'
+    sh 'bower install font-awesome'
   end
 
   file 'bower_components/skeleton-sass/skeleton_template.scss' do
@@ -48,14 +63,35 @@ namespace :css do
     sh 'bower install skyblue'
   end
 
+  file 'bower_components/bulma/bulma.sass' do
+    sh 'bower install bulma'
+  end
 
-  file 'public/css/skeleton.min.css' => 'bower_components/skeleton-sass/skeleton_template.scss' do |t|
+  file 'bower_components/font-awesome/scss/font-awesome.scss' do
+    sh 'bower install font-awesome'
+  end
+
+  file 'public/css/skeleton.min.css' =>
+      'bower_components/skeleton-sass/skeleton_template.scss' do |t|
     scss_compile(t.source, t.name)
   end
+
   file 'public/css/pure-min.css' => 'bower_components/pure/pure-min.css' do |t|
     cp t.source, t.name
   end
-  file 'public/css/skyblue.min.css' => 'bower_components/skyblue/sass/skyblue.scss' do |t|
+
+  file 'public/css/skyblue.min.css' =>
+      'bower_components/skyblue/sass/skyblue.scss' do |t|
+    scss_compile(t.source, t.name)
+  end
+
+  file 'public/css/bulma.min.css' =>
+      'bower_components/bulma/bulma.sass' do |t|
+    sass_compile(t.source, t.name)
+  end
+
+  file 'public/css/font-awesome.min.css' =>
+      'bower_components/font-awesome/scss/font-awesome.scss' do |t|
     scss_compile(t.source, t.name)
   end
 end
