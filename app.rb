@@ -4,24 +4,30 @@ require 'slim'
 require 'coffee-script'
 require 'sass'
 require 'rack/flash'
+require 'sinatra/asset_pipeline'
 require 'sinatra/reloader' if ENV['RACK_ENV'] == 'development'
+require 'rails-assets-skeleton-sass'
+require 'cgi'
 
 require_relative 'usb_device'
 
-class MainApp < Sinatra::Base
+# メインとなる Sintra アプリケーション
+class App < Sinatra::Base
   enable :method_override
   enable :sessions
   use Rack::Flash
-
-  configure do
-    set :coffee_mutex, Thread::Mutex.new
+  register Sinatra::AssetPipeline
+  if defined?(RailsAssets)
+    RailsAssets.load_paths.each do |path|
+      settings.sprockets.append_path(path)
+    end
   end
 
   get '/' do
     @usbs = USBDevice.all
-    p @usbs
     if @usbs.count == 0
-      flash[:info] = 'USB メモリ が 認識されていません。 Rasberry Pi に USB メモリ を挿入し、ページを再読み込みしてください。'
+      flash[:info] = 'USB メモリ が 認識されていません。 ' \
+        'Rasberry Pi に USB メモリ を挿入し、ページを再読み込みしてください。'
     end
     slim :top
   end
@@ -67,11 +73,5 @@ class MainApp < Sinatra::Base
   get '/about' do
     @license_text = IO.read(File.join(settings.root, 'LICENSE.md'))
     slim :about
-  end
-
-  get '/app.js' do
-    settings.coffee_mutex.synchronize do
-      coffee :app
-    end
   end
 end

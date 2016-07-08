@@ -6,6 +6,7 @@ html lang="ja"
     meta name="viewport" content="initial-scale=1"
     title
       | Pepares
+    == stylesheet_tag 'app'
     link rel="stylesheet" href="css/bulma.min.css"
     link rel="stylesheet" href="css/font-awesome.min.css"
   body
@@ -49,4 +50,4 @@ html lang="ja"
             input type="hidden" name="_method" value="POST"
             button.button.cmc-ok type="submit" はい
             button.button.cmc-cancel type="reset" いいえ
-    script src="/app.js"
+    == javascript_tag 'app'

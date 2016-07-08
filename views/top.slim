@@ -20,7 +20,7 @@
           - @usbs.each_with_index do |usb, index|
             tr
               td
-                a href="/usb/#{usb.name}/"
+                a href="/usb/#{CGI.escape(usb.label)}/"
                   span id="usb-#{index}-name"
                     = usb.label || usb.name
               td

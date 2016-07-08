@@ -1,6 +1,37 @@
 # WebDAV Filter
 require 'rack_dav'
 
+# USBResource
+# collections have no content
+# ignore custom property
+# ignore lock
+class USBResource < RackDAV::FileResource
+  def get_property(name)
+    if collection?
+      case name
+      when 'getcontentlength' then '0'
+      when 'getcontenttype'   then nil
+      else super
+      end
+    else
+      super
+    end
+  end
+
+  def set_custom_property(name, value)
+    puts "#{name} = #{value}"
+  end
+
+  def get_custom_property(name)
+    puts name.to_s
+    nil
+  end
+
+  def list_custom_properties
+    []
+  end
+end
+
 # HACK: rack_dav
 # RackDAV::Controller#propfind
 module RackDAV
@@ -49,56 +80,32 @@ module RackDAV
 end
 
 class WebDAVFilter
-  def initialize(app, options = {})
+  def initialize(app, root: Dir.pwd, path: '/')
     @app = app
-    @options = {
-      root: Dir.pwd,
-      path: '/'
-    }.merge(options)
-    @path = @options[:path].dup.freeze
-    @dav = RackDAV::Handler.new(root: @options[:root],
-                                resource_class: USBResource)
+    @path = path
+    @webdav = RackDAV::Handler.new(root: root, resource_class: USBResource)
+    @path_top_r = /\A#{@path}\/[^\/]*\/?\z/
   end
 
   def call(env)
     if env['PATH_INFO'].start_with?(@path)
-      if (forwarded_hosts = env['HTTP_X_FORWARDED_HOST'])
-        env['HTTP_HOST'] = forwarded_hosts.split(/,\s?/).last
+      if env['PATH_INFO'] =~ @path_top_r
+        # トップディレクトリは特別
+        case env['METHOD']
+        when 'DELETE'
+          @app.call(env)
+        else
+          @webdav.call(env)
+        end
+      else
+        # リバースプロキシ経由の場合は'HTTP_HOST'が正しくないと動作しない
+        if (forwarded_hosts = env['HTTP_X_FORWARDED_HOST'])
+          env['HTTP_HOST'] = forwarded_hosts.split(/,\s?/).last
+        end
+        @webdav.call(env)
       end
-      @dav.call(env)
     else
       @app.call(env)
     end
-  end
-end
-
-# USBResource
-# collections have no content
-# ignore custom property
-# ignore lock
-class USBResource < RackDAV::FileResource
-  def get_property(name)
-    if collection?
-      case name
-      when 'getcontentlength' then '0'
-      when 'getcontenttype'   then nil
-      else super
-      end
-    else
-      super
-    end
-  end
-
-  def set_custom_property(name, value)
-    puts "#{name} = #{value}"
-  end
-
-  def get_custom_property(name)
-    puts name.to_s
-    nil
-  end
-
-  def list_custom_properties
-    []
   end
 end

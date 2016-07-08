@@ -17,6 +17,24 @@ class USBDevice
     @label = USBDevice.labels[@device]
   end
 
+  def create_link(parent_dir)
+    symlink_file = File.join(parent_dir, @label)
+    if FileTest.exist?(symlink_file)
+      if FileTest.symlink?(symlink_file)
+        path = File.expand_path(File.readlink(symlink_file),
+          File.dirname(symlink_file))
+        if path != @mount
+          File.unlink(symlink_file)
+          File.symlink(@mount, symlink_file)
+        end
+      else
+        raise 'シンボリックリンク以外が存在します。'
+      end
+    else
+      File.symlink(@mount, symlink_file)
+    end
+  end
+
   class << self
     def all
       Sys::Filesystem.mounts
@@ -58,6 +76,21 @@ class USBDevice
         end
       end
       return name
+    end
+
+    def clear_link(parent_dir)
+      Dir.foreach(parent_dir) do |name|
+        next if name == '.' || name == '..'
+        path = File.join(parent_dir, name)
+        File.unlink(path) if FileTest.symlink?(path)
+      end
+    end
+
+    def all_link(parent_dir)
+      clear_link(parent_dir)
+      all.each do |usb|
+        usb.create_link(parent_dir)
+      end
     end
   end
 end
