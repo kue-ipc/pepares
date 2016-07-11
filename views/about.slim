@@ -4,27 +4,46 @@ section
     |
       Pepares (ペパレス) は簡易ペーパーレス会議システムです。
       Raspberry Pi とオープンソース技術の組み合わせで低価格を実現しました。
-      WebDAV を採用することで、あらゆる機器へのドキュメント配布が可能です。
+      WebDAV を採用することで、あらゆる機器への会議資料の配布が可能になります。
 section
   h3 ライセンス
   pre
-    = @license_text
-  h3 使用ライブラリ
+    code
+      = @license_text
+  h4 使用ライブラリ
   p
-    |
-      次のライブラリが含まれます。
-      各ライブラリの著作権および使用ライセンスは各ライブラリが定めるものに準じます。
+    | 本ソフトウェアは
+    a<> href="https://www.ruby-lang.org/" Ruby
+    | 上で動作し、
+    a<> href="https://rubygems.org/" RubyGems.org
+    | および
+    a<> href="https://rails-assets.org/" Rails Assets
+    | で公開された各ライブラリを使用しています。
+    | 各ライブラリの著作権および使用ライセンスは各ライブラリが定めるものとします。
+    | なお、下記ライブラリのみソフトウェア自体に改変されたコードが含まれています。
   ul
-    li 
-      a> href="https://stanko.github.io/skyblue/"
-        | SkyBlue CSS Framework
     li
       a> href="https://github.com/georgi/rack_dav"
         | RackDAV
       | ※ 一部のコードのみ
-  p
-    | 動作には
-    a<> href="https://www.ruby-lang.org/" Ruby
-    | および 
-    a<> href="https://rubygems.org/" RubyGems
-    | で公開された各ライブラリを使用しています。
+section
+  h3 情報
+  table
+    thead
+      tr
+        th 名前
+        th 値
+    tbody
+      tr
+        td 幅
+        td#screen-width
+      tr
+        td 高さ
+        td#screen-height
+
+coffee:
+  setScreenSize = ->
+    document.getElementById('screen-width').textContent = WindowInformation.getScreenWidth()
+    document.getElementById('screen-height').textContent = WindowInformation.getScreenHeight()
+  window.addEventListener 'resize', (e) -> setScreenSize()
+  setScreenSize()

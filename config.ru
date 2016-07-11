@@ -1,4 +1,7 @@
 
+Encoding.default_external = 'UTF-8'
+Encoding.default_internal = 'UTF-8'
+
 app_root_dir = File.expand_path(File.dirname(__FILE__))
 log_dir = File.expand_path('log', app_root_dir)
 tmp_dir = File.expand_path('tmp', app_root_dir)
@@ -26,6 +29,7 @@ end
 
 # use Rack::Logger
 # use Rack::CommonLogger, log
+use Rack::MethodOverride
 use Rack::Auth::Basic do |username, password|
   username == 'pepares' && password == 'pepares'
 end

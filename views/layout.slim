@@ -7,47 +7,45 @@ html lang="ja"
     title
       | Pepares
     == stylesheet_tag 'app'
-    link rel="stylesheet" href="css/bulma.min.css"
-    link rel="stylesheet" href="css/font-awesome.min.css"
+    == javascript_tag 'app'
   body
-    header.header
+    header
       .container
-        nav.level
-          .level-left
-            .level-item
-              h1.title Pepares
-          .level-right
-            .level-item
-              a.button
-                span.icon
-                  i.fa.fa-retweet
-                span 再読み込み
-    main.section
+        .u-pull-right
+          a.button href="#" onclick="location.reload(true);"
+            i.fa.fa-retweet
+            | ページの再読み込み
+        h4
+          | Pepares
+          small< ぺぱれす
+        div
+          - @path_list.inject('') do |prev, name|
+            - if prev != ''
+              | →
+            - prev.chomp!('/')
+            - path = prev + '/' + name
+            - name = 'トップ' if name == ''
+            a<> href=path = name
+            - path
+    main
       .container
         - [:danger, :warning, :success, :info, :primary].each do |level|
           - if flash[level]
-            .notification class="is-#{level}"
-              button.delete onclick="this.parentElement.style.display = 'none';;"
+            .notification class=level
+              - case level
+              - when :danger
+                i.fa> class="fa-times-circle"
+              - when :warning
+                i.fa> class="fa-exclamation-circle"
+              - when :success
+                i.fa> class="fa-check-circle"
+              - when :info
+                i.fa> class="fa-info-circle"
               = flash[level]
         == yield
-    footer.footer
+    footer
       .container
-        hr
         p.text-center
           | Powered by
           a<> href="/about" Pepares
           | © 2016 京都教育大学
-    .modal#confirm-modal
-      .modal-background
-      .modal-card
-        header.modal-card-head
-          p.modal-card-title 確認
-          button.delete.cmc-cancel
-        section.modal-card-body
-          p.cmc-message
-        footer.modal-card-foot
-          form.cmc-form name="confirm-modal-form" action="/" method="POST"
-            input type="hidden" name="_method" value="POST"
-            button.button.cmc-ok type="submit" はい
-            button.button.cmc-cancel type="reset" いいえ
-    == javascript_tag 'app'

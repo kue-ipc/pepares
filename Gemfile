@@ -1,16 +1,22 @@
 source 'https://rubygems.org'
 
-gem 'puma'
 gem 'rake'
-gem 'sinatra'
+gem 'puma'
+
+gem 'rack'
 gem 'rack_dav'
 gem 'rack-flash3'
+gem 'sinatra'
+gem 'sinatra-asset-pipeline'
 
 gem 'slim'
 gem 'sass'
 gem 'coffee-script'
-gem 'sinatra-asset-pipeline'
-gem 'rails-assets-skeleton-sass', source: 'https://rails-assets.org'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-skeleton-sass'
+  gem 'rails-assets-font-awesome'
+end
 
 gem 'sys-filesystem'
 gem 'redcarpet'

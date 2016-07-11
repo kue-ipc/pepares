@@ -1,59 +1,48 @@
-/ - if @usbs.count == 0
-/   article.message.is-info
-/     .message-header
-/       | USBメモリ を Raspberry Pi に挿入してください。
-/     .message-body
-/       | USBメモリ が 認識されていません。 Rasberry Pi を挿入し、ページの再読み込みを行ってください。
-
-.tile.is-ancestor
-  .tile.is-parent.is-8
-    article.tile.is-child
-      h3.title USB接続状態
-      table.table.is-striped
-        thead
+.row
+  section.columns.eight
+    h3.title USB接続状態
+    table
+      thead
+        tr
+          th 名前
+          th タイプ
+          th 容量
+          th 操作
+      tbody
+        - @usb_list.each_with_index do |usb, index|
+          - usb_path = "/usb/#{CGI.escape(usb.name)}/"
           tr
-            th 名前
-            th タイプ
-            th 容量
-            th 操作
-        tbody
-          - @usbs.each_with_index do |usb, index|
-            tr
-              td
-                a href="/usb/#{CGI.escape(usb.label)}/"
-                  span id="usb-#{index}-name"
-                    = usb.label || usb.name
-              td
-                = usb.fstype
-              td
-                => "%.1f" % (usb.size[:available] / (1024 ** 3).to_f)
-                | GB /
-                =<> "%.1f" % (usb.size[:total]  / (1024 ** 3).to_f)
-                | GB
-              td
-                a.panel-block[href="#" onclick="return cmc.confirm(this);"
-                    data-message="シャットダウンしてもよろしいですか？"
-                    data-action="/shutdown" data-method="POST"]
-                / button.btn.btn-empty[type="submit" name="eject" value="#{usb.device}"
-                /     onclick="return confirm_eject(#{index});"]
-                /  | 取り出し
-  .tile.is-parent
-    article.tile.is-child
-      nav.panel
-        p.panel-heading 操作
-        a.panel-block[href="#" onclick="return cmc.confirm(this);"
-            data-message="シャットダウンしてもよろしいですか？"
-            data-action="/shutdown" data-method="POST"]
-          span.panel-icon
-            i.fa.fa-power-off
-          | シャットダウン
-        a.panel-block[href="#" onclick="cmc.confirm(this);"
-            data-message="再起動してもよろしいですか？"
-            data-action="/reboot" data-method="POST"]
-          span.panel-icon
-            i.fa.fa-refresh
-          | 再起動
+            td
+              a href=usb_path
+                span id="usb-#{index}-name"
+                  = usb.name
+            td
+              = usb.fstype
+            td
+              => "%.1f" % (usb.size[:available] / (1024 ** 3).to_f)
+              | GB /
+              =<> "%.1f" % (usb.size[:total]  / (1024 ** 3).to_f)
+              | GB
+            td
+              form method="POST" action=usb_path
+                input type="hidden" name="_method" value="DELETE"
+                button.button[type="submit" onclick="confirmAction(this);"
+                  data-message="取り出してもいいですか？"]
+                  | 取り出し
+              / button.btn.btn-empty[type="submit" name="eject" value="#{usb.device}"
+              /     onclick="return confirm_eject(#{index});"]
+              /  | 取り出し
+  section.columns.four
+    h3.panel-heading 操作
+    form method="POST" action="/shutdown"
+      button.button[type="submit" onclick="confirmAction(this);"
+        data-message="シャットダウンしてもよろしいですか？"]
+        i.fa.fa-power-off>
+        | シャットダウン
+    form method="POST" action="/reboot"
+      button.button[type="submit" onclick="confirmAction(this);"
+        data-message="再起動してもよろしいですか？"]
+        i.fa.fa-refresh>
+        | 再起動
 p 
-  strong
-    span.icon-power
   |「取り出し」または「シャットダウン」することで、USBメモリを安全に取り出すことができます。
