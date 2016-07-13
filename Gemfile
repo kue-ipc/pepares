@@ -19,7 +19,6 @@ source 'https://rails-assets.org' do
 end
 
 gem 'sys-filesystem'
-gem 'redcarpet'
 
 group :development do
   gem 'sinatra-contrib'

@@ -19,15 +19,15 @@ class USBDevice
   def create_link(parent_dir)
     symlink_file = File.join(parent_dir, @name)
     if FileTest.exist?(symlink_file)
-      if FileTest.symlink?(symlink_file)
-        path = File.expand_path(File.readlink(symlink_file),
-          File.dirname(symlink_file))
-        if path != @mount
-          File.unlink(symlink_file)
-          File.symlink(@mount, symlink_file)
-        end
-      else
-        raise 'シンボリックリンク以外が存在します。'
+      unless FileTest.symlink?(symlink_file)
+        raise 'シンボリックリンクではありません: ' + symlink_file.to_s
+      end
+
+      path = File.expand_path(File.readlink(symlink_file),
+        File.dirname(symlink_file))
+      if path != @mount
+        File.unlink(symlink_file)
+        File.symlink(@mount, symlink_file)
       end
     else
       File.symlink(@mount, symlink_file)
@@ -55,23 +55,17 @@ class USBDevice
         return @labels
       end
 
-      current_default_external = Encoding.default_external
-      begin
-        Encoding.default_external = 'ASCII-8BIT'
-        @labels = Dir.foreach(label_dir)
-          .reject { |name| name == '.' || name == '..' }
-          .select { |name| FileTest.symlink?(File.join(label_dir, name)) }
-          .map do |name|
-            [
-              File.expand_path(File.readlink(File.join(label_dir, name)),
-                label_dir),
-              normalize_label(name)
-            ]
-          end.to_h
-        @labels_mtime = File.stat(label_dir).mtime
-      ensure
-        Encoding.default_external = current_default_external
-      end
+      @labels = Dir.foreach(label_dir)
+        .reject { |name| name == '.' || name == '..' }
+        .select { |name| FileTest.symlink?(File.join(label_dir, name)) }
+        .map do |name|
+          [
+            File.expand_path(File.readlink(File.join(label_dir, name)),
+              label_dir),
+            normalize_label(name),
+          ]
+        end.to_h
+      @labels_mtime = File.stat(label_dir).mtime
       return @labels
     end
 
@@ -107,11 +101,4 @@ class USBDevice
       end
     end
   end
-end
-
-if __FILE__ == $0
-  ll = USBDevice.labels
-  p ll
-  puts ll['/dev/sdb1']
-  puts "日本語"
 end

@@ -6,6 +6,42 @@ require 'rack_dav'
 # ignore custom property
 # ignore lock
 class USBResource < RackDAV::FileResource
+  # 除外するフォルダ名
+  EXCLUDE_NAMES = [
+    'System Volume Information',
+    '$RECYCLE.BIN',
+    'Desktop.ini',
+    'Thumbs.db',
+  ].freeze
+
+  def put
+    raise RackDAV::HTTPStatus::Forbidden unless changable?
+    super
+  end
+
+  def move
+    raise RackDAV::HTTPStatus::Forbidden unless changable?
+    super
+  end
+
+  def delete
+    raise RackDAV::HTTPStatus::Forbidden unless changable?
+    super
+  end
+
+  def make_collection
+    raise RackDAV::HTTPStatus::Forbidden unless changable?
+    super
+  end
+
+  def changable?
+    path =~ %r<\A/usb/[^/]+/[^/]>
+  end
+
+  def children
+    super.reject { |res| EXCLUDE_NAMES.include?(res.name) }
+  end
+
   def get_property(name)
     if collection?
       case name
@@ -35,6 +71,7 @@ end
 # HACK: rack_dav
 # RackDAV::Controller#propfind
 module RackDAV
+  # Overwrite RackDAV::Controller
   class Controller
     # Original code is RackDAV https://github.com/georgi/rack_dav
     # Copyright (c) 2009 Matthias Georgi <http://www.matthias-georgi.de>
@@ -79,6 +116,7 @@ module RackDAV
   end
 end
 
+# WebDAVを処理するRackアプリケーション
 class WebDAVFilter
   def initialize(app, root: Dir.pwd, path: '/')
     @app = app
@@ -88,11 +126,11 @@ class WebDAVFilter
   end
 
   def call(env)
-    if env['PATH_INFO'].start_with?(@path)
-      if env['PATH_INFO'] =~ @path_top_r
+    req = Rack::Request.new(env)
+    if req.path_info.start_with?(@path)
+      if req.path_info =~ @path_top_r
         # トップディレクトリは特別
-        case env['METHOD']
-        when 'DELETE'
+        if req.delete?
           @app.call(env)
         else
           @webdav.call(env)

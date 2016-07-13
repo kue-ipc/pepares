@@ -26,21 +26,18 @@
             td
               form method="POST" action=usb_path
                 input type="hidden" name="_method" value="DELETE"
-                button.button[type="submit" onclick="confirmAction(this);"
+                button.button[type="submit" onclick="return confirmAction(this);"
                   data-message="取り出してもいいですか？"]
                   | 取り出し
-              / button.btn.btn-empty[type="submit" name="eject" value="#{usb.device}"
-              /     onclick="return confirm_eject(#{index});"]
-              /  | 取り出し
   section.columns.four
     h3.panel-heading 操作
     form method="POST" action="/shutdown"
-      button.button[type="submit" onclick="confirmAction(this);"
+      button.button[type="submit" onclick="return confirmAction(this);"
         data-message="シャットダウンしてもよろしいですか？"]
         i.fa.fa-power-off>
         | シャットダウン
     form method="POST" action="/reboot"
-      button.button[type="submit" onclick="confirmAction(this);"
+      button.button[type="submit" onclick="return confirmAction(this);"
         data-message="再起動してもよろしいですか？"]
         i.fa.fa-refresh>
         | 再起動
