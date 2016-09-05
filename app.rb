@@ -25,10 +25,12 @@ class App < Sinatra::Base
   use Rack::Flash, sweep: true
 
   register Sinatra::AssetPipeline
-  if defined?(RailsAssets)
+  configure do
     RailsAssets.load_paths.each do |path|
-      settings.sprockets.append_path(path)
+      sprockets.append_path(path)
     end
+    sprockets.append_path File.join(root, 'assets', 'javascripts')
+    sprockets.append_path File.join(root, 'assets', 'stylesheets')
   end
 
   before do
