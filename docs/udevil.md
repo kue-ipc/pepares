@@ -1,30 +1,29 @@
 # udevil 設定
 
-標準では FAT32 の USBメモリ のみに対応している。FAT32 以外のフォーマットに対応する場合は、追加の設定が必要になる。
+標準では VFAT(FAT16/FAT32) の USBメモリ のみに対応している。VFAT 以外のフォーマットに対応する場合は、追加の設定が必要になる。
 
-## exFAT
-exFAT に対応する場合、下記を追加する。
+## パッケージの追加
 
-```
-$ sudo apt-get install exfat-fuse exfat-utils
-```
-
-## HPS+
-HPS+ に対応する場合、下記を追加する。
+### exFAT
 
 ```
-$ sudo apt-get install hfsprogs
+$ sudo apt-get install exfat-fuse
 ```
 
-設定ファイル: /etc/udevil/udevil.conf
+### HPS+
 
-vfat 以外に対応する場合は、必要に応じて設定を行うこと。
-ファイルシステムによっては追加のパッケージも必要。
+```
+$ sudo apt-get install hfsplus
+```
 
-## NTFS
+## 設定
 
-TODO
+udevil の設定ファイル `/etc/udevil/udevil.conf` に必要なフォーマットを追加する。下記は exFAT を追加する場合である。
 
-## ext2/3/4
-
-TODO
+/etc/udevil/udevil.conf
+```
+# 既存の行の最後に `, exfat` を追加
+allowed_types = $KNOWN_FILESYSTEMS, file, exfat
+# default_options_* のところに、exfat 用のオプションを追加
+default_options_exfat     = nosuid, noexec, nodev, noatime, nonempty, fmask=0133, dmask=0022, uid=$UID, gid=$GID, utf8
+```

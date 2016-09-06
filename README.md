@@ -3,7 +3,7 @@
 ## システム要件
 * サポートするハードウェアとOS
     * Paspberry Pi 2 Model B または Paspberry Pi 3 Model B
-    * Raspbien Jessie
+    * raspbian Jessie
 * 動作するであろう環境
     * UNIX/Linux 環境
     * Ruby 2.1 以上
@@ -17,6 +17,8 @@
 * 有線LAN経由でインターネットにアクセスできるようにする。(セットアップ後は有線LANは不要)
 
 ### 必要なパッケージのインストール
+
+Ruby および udevil 等をインストールする。
 
 ```
 $ sudo apt-get install ruby bundler udevil zlib1g-dev
@@ -58,6 +60,19 @@ $ RACK_ENV=production bundle exec rake assets:precompile
 $ RACK_ENV=production bundle exec rake server
 ```
 
+`http://ホスト名:9292/` にアクセスし、動作を確認する。
+
 ### サービス登録
 
 TODO
+
+### 設定
+
+設定ファイルはまだ用意出来ていない。それぞれのソースを直接変更する必要がある。
+
+ユーザ名とパスワードは`configu.ru`の下記部分を修正する。デフォルトは共に'pepares'になっている。また、コメントアウトで向こうにすることも可能。
+```
+use Rack::Auth::Basic do |username, password|
+  username == 'pepares' && password == 'pepares'
+end
+```
