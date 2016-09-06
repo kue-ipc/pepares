@@ -8,6 +8,9 @@ gem 'rack_dav'
 gem 'rack-flash3'
 gem 'sinatra'
 gem 'sinatra-asset-pipeline'
+# for Ruby 2.1.x
+gem 'activesupport', '~> 4.2.7.1'
+gem 'non-stupid-digest-assets'
 
 gem 'slim'
 gem 'sass'

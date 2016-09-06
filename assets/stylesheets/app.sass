@@ -1,19 +1,8 @@
 @charset "utf-8"
 
 @import "skeleton-sass"
-$fa-font-path: "font-awesome/fonts"
+$fa-font-path: "../font-awesome/fonts"
 @import "font-awesome"
-
-// rails-assets-font-awesome では digest されたパスにならないため、
-  強制的に上書きする。
-@font-face
-  font-family: 'FontAwesome'
-  src: asset-url('#{$fa-font-path}/fontawesome-webfont.eot?v=#{$fa-version}')
-  src: asset-url('#{$fa-font-path}/fontawesome-webfont.eot?#iefix&v=#{$fa-version}') format('embedded-opentype') asset-url('#{$fa-font-path}/fontawesome-webfont.woff2?v=#{$fa-version}') format('woff2'),  asset-url('#{$fa-font-path}/fontawesome-webfont.woff?v=#{$fa-version}') format('woff'),  asset-url('#{$fa-font-path}/fontawesome-webfont.ttf?v=#{$fa-version}') format('truetype'),  asset-url('#{$fa-font-path}/fontawesome-webfont.svg?v=#{$fa-version}#fontawesomeregular') format('svg')
-  // src: asset-url('#{$fa-font-path}/FontAwesome.otf') format('opentype')
-  // used when developing fonts
-  font-weight: normal
-  font-style: normal
 
 header
   padding-top: 1em

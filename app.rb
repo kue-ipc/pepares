@@ -17,6 +17,11 @@ require 'uglifier'
 require 'rails-assets-skeleton-sass'
 require 'rails-assets-font-awesome'
 
+# Non Stupid Digest Assets
+# mattr_accessor を使用しているため、ActiveSupportの一部が必要
+require 'active_support/core_ext/module/attribute_accessors.rb'
+require 'non-stupid-digest-assets'
+
 require_relative 'usb_device'
 
 # メインとなる Sintra アプリケーション
@@ -31,6 +36,8 @@ class App < Sinatra::Base
   end
   register Sinatra::AssetPipeline
   configure do
+    # font-awesome のフォントについて、digest を除外
+    ::NonStupidDigestAssets.whitelist += [/font-awesome\/.*/]
     RailsAssets.load_paths.each do |path|
       sprockets.append_path(path)
     end
