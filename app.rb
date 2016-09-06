@@ -9,8 +9,9 @@ require 'rack/flash'
 
 # Template for Sinatra
 require 'slim'
-require 'coffee-script'
 require 'sass'
+require 'coffee-script'
+require 'uglifier'
 
 # Rails Assets
 require 'rails-assets-skeleton-sass'
@@ -24,6 +25,10 @@ class App < Sinatra::Base
 
   use Rack::Flash, sweep: true
 
+  if production?
+    set :assets_css_compressor, :sass
+    set :assets_js_compressor, :uglifier
+  end
   register Sinatra::AssetPipeline
   configure do
     RailsAssets.load_paths.each do |path|

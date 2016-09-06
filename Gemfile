@@ -12,6 +12,7 @@ gem 'sinatra-asset-pipeline'
 gem 'slim'
 gem 'sass'
 gem 'coffee-script'
+gem 'uglifier'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-skeleton-sass'
